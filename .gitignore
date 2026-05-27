@@ -1,0 +1,23 @@
+## XcodeGen — generated project, do not commit
+EdgeWebRTCDemo.xcodeproj/
+
+## Xcode user state
+**/xcuserdata/
+**/*.xcuserdatad/
+*.xcuserstate
+
+## Build artifacts
+build/
+DerivedData/
+
+## Swift Package Manager
+.swiftpm/
+.build/
+Package.resolved
+
+## macOS
+.DS_Store
+
+## Misc
+*.swp
+*.swo
