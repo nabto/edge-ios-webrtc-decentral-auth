@@ -1,6 +1,9 @@
 ## XcodeGen — generated project, do not commit
 EdgeWebRTCDemo.xcodeproj/
 
+## Local checkout of the Nabto Edge device-side SDK (separate repo)
+edge-device-webrtc/
+
 ## Xcode user state
 **/xcuserdata/
 **/*.xcuserdatad/

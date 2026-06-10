@@ -1,6 +1,9 @@
 import Foundation
 import Network
+import OSLog
 import NabtoEdgeClient
+
+private let log = Logger(subsystem: "com.nabto.EdgeWebRTCDemo", category: "EdgeConnection")
 
 enum DeviceError: LocalizedError {
     /// The device's public-key fingerprint changed since we paired with it.
@@ -36,8 +39,11 @@ private final class ConnectionWrapper: ConnectionEventReceiver {
     }
 
     func onEvent(event: NabtoEdgeClientConnectionEvent) {
+        log.info("connection event for \(self.target.id, privacy: .public): \(String(describing: event), privacy: .public)")
         if event == NabtoEdgeClientConnectionEvent.CLOSED {
             isClosed = true
+            let bookmark = target
+            Task { await EdgeConnectionManager.shared.evict(bookmark) }
             NotificationCenter.default.post(
                 name: NSNotification.Name(EdgeConnectionManager.eventNameConnectionClosed),
                 object: target
@@ -60,7 +66,7 @@ actor EdgeConnectionManager {
 
     private var cache: [Bookmark: ConnectionWrapper] = [:]
     private var client_: Client?
-    private let logLevel = "info"
+    private let logLevel = "trace"
     private let monitor = NWPathMonitor()
     private var networkAvailable = true
 
@@ -75,9 +81,11 @@ actor EdgeConnectionManager {
     var client: Client {
         if let existing = client_ { return existing }
         let fresh = Client()
-        fresh.enableNsLogLogging()
         try? fresh.setLogLevel(level: logLevel)
-        print("Initialized Nabto Edge Client SDK \(Client.versionString())")
+        fresh.setLogCallBack { msg in
+            print("[Nabto \(msg.severityString)] \(msg.file):\(msg.line) \(msg.message)")
+        }
+        log.info("Initialized Nabto Edge Client SDK \(Client.versionString(), privacy: .public) level=\(self.logLevel, privacy: .public)")
         client_ = fresh
         return fresh
     }
@@ -107,11 +115,27 @@ actor EdgeConnectionManager {
         cached?.stop()
     }
 
+    /// Stop and drop every cached connection, but keep the `Client` alive.
+    /// Triggers a `CLOSED` event for each, which any active view can react to.
+    func closeAllConnections() async {
+        log.info("closeAllConnections (\(self.cache.count, privacy: .public) cached)")
+        for (_, value) in cache { value.stop() }
+        cache.removeAll()
+    }
+
     func reset() async {
+        log.info("reset client + all connections")
         for (_, value) in cache { value.stop() }
         cache.removeAll()
         client_?.stop()
         client_ = nil
+    }
+
+    fileprivate func evict(_ target: Bookmark) {
+        if let cached = cache.removeValue(forKey: target) {
+            log.info("evicting closed connection for \(target.id, privacy: .public)")
+            cached.stop()
+        }
     }
 
     private func doConnect(_ target: Bookmark) async throws -> Connection {

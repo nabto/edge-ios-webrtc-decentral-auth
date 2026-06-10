@@ -23,6 +23,15 @@ struct DeviceListView: View {
                 .accessibilityLabel("Settings")
             }
             ToolbarItemGroup(placement: .topBarTrailing) {
+                Button {
+                    Task {
+                        await EdgeConnectionManager.shared.closeAllConnections()
+                        app.toaster.info("All connections closed", message: "Tap a device to reconnect.")
+                    }
+                } label: {
+                    Image(systemName: "arrow.clockwise")
+                }
+                .accessibilityLabel("Force-refresh all connections")
                 Button { showDiscover = true } label: {
                     Image(systemName: "dot.radiowaves.left.and.right")
                 }
