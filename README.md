@@ -43,19 +43,4 @@ Resolved via Swift Package Manager (see `project.yml`):
 | `nabto/edge-iamutil-swift` (`NabtoEdgeIamUtil`) | `>=1.1.1` |
 | `nabto/edge-client-swift-webrtc` (`NabtoEdgeClientWebRTC`) | `main` |
 
-## Architecture
 
-See `/Users/ug/.claude/plans/woolly-noodling-fairy.md` (design doc) for the full
-breakdown. Quick map:
-
-```
-EdgeWebRTCDemo/
-├── App/         Entry point + root view
-├── Models/      Bookmark, PairingInput
-├── Pairing/     Pairing string parser
-├── Services/    EdgeConnectionManager, BookmarkStore, ProfileStore,
-│                PairingService, MdnsService, WebRtcSession
-├── Util/        Toast + tiny helpers
-└── Views/       DeviceListView, AddDeviceView, DiscoverView, PairingView,
-                 DeviceDetailView, SettingsView, MetalVideoRepresentable
-```
