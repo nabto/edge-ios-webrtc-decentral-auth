@@ -39,8 +39,8 @@ Resolved via Swift Package Manager (see `project.yml`):
 
 | Package | Version |
 |---------|---------|
-| `nabto/edge-client-swift` (`NabtoEdgeClient`) | `>=3.3.0` |
-| `nabto/edge-iamutil-swift` (`NabtoEdgeIamUtil`) | `>=1.1.1` |
-| `nabto/edge-client-swift-webrtc` (`NabtoEdgeClientWebRTC`) | `main` |
+| `nabto/edge-client-swift` (`NabtoEdgeClient`) | `>=4.0.2` |
+| `nabto/edge-iamutil-swift` (`NabtoEdgeIamUtil`) | `>=2.0.1` |
+| `nabto/edge-client-swift-webrtc` (`NabtoEdgeClientWebRTC`) | `update_edge_client_swift_4` branch |
 
 
