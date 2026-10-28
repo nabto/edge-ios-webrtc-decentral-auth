@@ -1,0 +1,43 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  build-and-test:
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Cache SwiftPM
+        uses: actions/cache@v4
+        with:
+          path: .build/SourcePackages
+          key: spm-${{ runner.os }}-${{ hashFiles('project.yml') }}
+          restore-keys: spm-${{ runner.os }}-
+
+      - name: Generate Xcode project
+        run: |
+          brew install xcodegen
+          xcodegen
+
+      - name: Build and test (iOS Simulator)
+        run: |
+          UDID=$(xcrun simctl list devices available iPhone | grep -oE '[0-9A-F]{8}(-[0-9A-F]{4}){3}-[0-9A-F]{12}' | head -1)
+          if [ -n "$UDID" ]; then
+            ACTION=test
+            DESTINATION="platform=iOS Simulator,id=$UDID"
+          else
+            echo "No iPhone simulator available, building tests without running them"
+            ACTION=build-for-testing
+            DESTINATION="generic/platform=iOS Simulator"
+          fi
+          xcodebuild $ACTION \
+            -project EdgeWebRTCDemo.xcodeproj \
+            -scheme EdgeWebRTCDemo \
+            -destination "$DESTINATION" \
+            -derivedDataPath .build \
+            -skipPackagePluginValidation \
+            CODE_SIGNING_ALLOWED=NO

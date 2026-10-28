@@ -22,7 +22,7 @@ packages:
     from: 2.0.1
   NabtoEdgeClientWebRTC:
     url: https://github.com/nabto/edge-client-swift-webrtc
-    from: 0.6.1
+    from: 0.6.2
 
 targets:
   EdgeWebRTCDemo:
