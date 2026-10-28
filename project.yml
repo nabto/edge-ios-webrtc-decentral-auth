@@ -16,16 +16,13 @@ settings:
 packages:
   NabtoEdgeClient:
     url: https://github.com/nabto/edge-client-swift
-    from: 3.2.1
+    from: 4.0.2
   NabtoEdgeIamUtil:
     url: https://github.com/nabto/edge-iamutil-swift
-    from: 1.0.2
+    from: 2.0.1
   NabtoEdgeClientWebRTC:
-    # Local fork of edge-client-swift-webrtc that swaps stasel/WebRTC for
-    # webrtc-sdk/Specs 137.x — which bundles H.265 at every layer (decoder,
-    # encoder, RTP packetizer/depacketizer, default factory). See the
-    # h265-via-webrtc-sdk branch.
-    path: /Users/ug/git/edge-client-swift-webrtc
+    url: https://github.com/nabto/edge-client-swift-webrtc
+    from: 0.6.2
 
 targets:
   EdgeWebRTCDemo:
