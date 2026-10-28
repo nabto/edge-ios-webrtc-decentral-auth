@@ -41,6 +41,6 @@ Resolved via Swift Package Manager (see `project.yml`):
 |---------|---------|
 | `nabto/edge-client-swift` (`NabtoEdgeClient`) | `>=4.0.2` |
 | `nabto/edge-iamutil-swift` (`NabtoEdgeIamUtil`) | `>=2.0.1` |
-| `nabto/edge-client-swift-webrtc` (`NabtoEdgeClientWebRTC`) | `update_edge_client_swift_4` branch |
+| `nabto/edge-client-swift-webrtc` (`NabtoEdgeClientWebRTC`) | `>=0.6.1` |
 
 

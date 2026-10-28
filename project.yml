@@ -21,9 +21,8 @@ packages:
     url: https://github.com/nabto/edge-iamutil-swift
     from: 2.0.1
   NabtoEdgeClientWebRTC:
-    # No tagged release supports edge-client-swift 4.x yet.
     url: https://github.com/nabto/edge-client-swift-webrtc
-    branch: update_edge_client_swift_4
+    from: 0.6.1
 
 targets:
   EdgeWebRTCDemo:
